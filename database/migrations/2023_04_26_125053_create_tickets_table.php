@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('tickets', function (Blueprint $table) {
             $table->increments('id');
+            $table->string('user_id');
             $table->string('ticket_id')->unique();
             $table->string('problem_description');
             $table->string('status');

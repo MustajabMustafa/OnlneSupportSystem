@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 use App\Models\Ticket;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
+
 
 class TicketsController extends Controller
 {
@@ -13,7 +15,7 @@ class TicketsController extends Controller
     public function index()
     {
         $tickets = Ticket::paginate(10);
-        return view('tickets.index', compact('tickets'));
+        return view('user.tickets.index', compact('tickets'));
     }
 
     /**
@@ -21,12 +23,12 @@ class TicketsController extends Controller
      */
     public function create()
     {
-        return view('tickets.create');
+        return view('user.tickets.create');
     }
     public function userTickets()
     {
         $tickets = Ticket::where('user_id', Auth::user()->id)->paginate(10);
-        return view('tickets.user_tickets', compact('tickets'));
+        return view('user.tickets.user_tickets', compact('tickets'));
     }
 
     /**
@@ -35,12 +37,11 @@ class TicketsController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'title' => 'required',
-            'message' => 'required'
+            'problem_description' => 'required',
         ]);
         $ticket = new Ticket([
             'user_id' => Auth::user()->id,
-            'ticket_id' => strtoupper(str(10)),
+            'ticket_id' => Str::random(7),
             'problem_description' => $request->input('problem_description'),
             'status' => "Open"
         ]);
@@ -54,7 +55,8 @@ class TicketsController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $ticket = Ticket::where('ticket_id', $id)->firstOrFail();
+        return view('user.tickets.show', compact('ticket'));
     }
 
     /**

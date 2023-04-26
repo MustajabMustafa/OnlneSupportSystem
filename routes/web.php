@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\AgentController;
 use App\Http\Controllers\TicketsController;
+use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -35,10 +36,10 @@ Route::middleware(['auth','role:agent'])->group(function(){
     Route::get('/agent/dashboard', [AgentController::class, 'AgentDashboard'])->name('agent.dashboard');
 });
 Route::middleware(['auth','role:user'])->group(function(){
-    Route::get('/home', 'HomeController@index')->name('home');
-    Route::get('new-ticket', [TicketsController::class, 'create']);
-    Route::get('my_tickets', [TicketsController::class, 'userTickets']);
-    Route::get('tickets/{ticket_id}', [TicketsController::class, 'show']);
-    Route::post('new-ticket', [TicketsController::class, 'store']);
-    Route::post('comment', [CommentsController::class, 'postComment']);
+    Route::get('/user/dashboard', [HomeController::class, 'index']);
+    Route::get('/user/new-ticket', [TicketsController::class, 'create']);
+    Route::get('/user/my_tickets', [TicketsController::class, 'userTickets']);
+    Route::get('/user/tickets/{ticket_id}', [TicketsController::class, 'show']);
+    Route::post('/user/new-ticket', [TicketsController::class, 'store']);
+    Route::post('/user/comment', [CommentsController::class, 'postComment']);
 });

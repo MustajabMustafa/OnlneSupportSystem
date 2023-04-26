@@ -32,7 +32,7 @@ class AuthenticatedSessionController extends Controller
         if($request->user()->is_admin==='agent'){
             $url='/agent/dashboard';
         }else{
-            $url='dashboard';
+            $url='/user/dashboard';
         }
         return redirect()->intended($url);
     }
